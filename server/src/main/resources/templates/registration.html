@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application Builder - Registration</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../com/sparksdev/flo/public/css/bootstrap.clinflo.css"/>
+
+</head>
+
+<body>
+
+<div class="modal " id="loginModal" style="display:block;">
+    <div class="modal-dialog login-modal">
+
+        <div class="flip-container">
+
+            <div class="flipper">
+                <div class="front">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">Registration</h4>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <form action="#" th:action="@{/registration}" th:object="${registration}" method="POST">
+
+                                <h3 th:text="*{errorMessage}"/>
+
+                                <div class="form-group">
+                                    <label for="inputOrgName">Company Name</label>
+                                    <input type="text" th:field="*{orgName}" class="form-control" id="inputOrgName"
+                                           required="" autofocus=""/>
+
+                                    <div th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}">Org Name Error
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputEmail">Email address</label>
+                                    <input type="text" id="inputEmail" th:field="*{username}" class="form-control"
+                                           required="" autofocus=""/>
+
+                                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">User Name
+                                        Error
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputFirstName">First name</label>
+                                    <input type="text" id="inputFirstName" th:field="*{firstName}" class="form-control"
+                                           required="" autofocus=""/>
+
+                                    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name
+                                        Error
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputSurname">Surname</label>
+                                    <input type="text" id="inputSurname" th:field="*{surname}" class="form-control"
+                                           required="" autofocus=""/>
+
+                                    <div th:if="${#fields.hasErrors('surname')}" th:errors="*{firstName}">Surname
+                                        Error
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="controls-row">
+                                        <label class="control-label">Num Users</label>
+                                        <label class="radio inline">
+                                            <input type="radio" th:field="*{numUsers}" class="form-control" value="5"/>1-5
+                                            Users
+                                        </label>
+                                        <label class="radio inline">
+                                            <input type="radio" th:field="*{numUsers}" class="form-control" value="10"/>5-10
+                                            Users
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" value="Register">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

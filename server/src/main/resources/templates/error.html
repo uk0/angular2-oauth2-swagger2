@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../../css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="text-center">Oops:
+
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><h1 th:text="${title}">Title</h1></li>
+                        <li class="list-group-item">
+                            <div id="created" th:text="${#dates.format(timestamp)}">
+                                July 11 2012 2:17:16 PM CDT
+                            </div>
+                        </li>
+                         <li class="list-group-item">
+                             <div>
+                              There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).
+                             </div>
+                         </li>
+                        <li class="list-group-item">
+                            <div th:text="${message}">
+                                Fake content
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">Please contact the operator with the above information or go to  <a th:href="@{/}" href="home.html"> Home page </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

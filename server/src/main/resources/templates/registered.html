@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application Builder - Registration</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../com/sparksdev/flo/public/css/bootstrap.clinflo.css"/>
+
+</head>
+
+<body>
+
+<div class="modal " id="loginModal" style="display:block;">
+    <div class="modal-dialog login-modal">
+
+        <div class="flip-container">
+
+            <div class="flipper">
+                <div class="front">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">Registration Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p th:text="'Registered company ' + ${registration.orgName}"/>
+
+                            <p>You will be sent an email to complete registration.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

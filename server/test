@@ -1,0 +1,2 @@
+curl localhost:8080/oauth/token -d "grant_type=password&scope=write&username=admin&password=free4all" -u foo:bar --trace-ascii /dev/stdout
+

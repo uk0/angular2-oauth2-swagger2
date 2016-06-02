@@ -1,0 +1,85 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Flo API
+  description: Move your app forward with the Flo API
+  version: "1.0.0"
+# the domain of the service
+host: localhost:8080
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /users:
+    get:
+      summary: Users
+      description: |
+        The Users endpoint returns information about the *Users*.  The response includes the display name
+        and other details about each user, and lists the users in the
+        proper display order.
+      parameters:
+        - name: orgId
+          in: query
+          description: Organisation id that the user belongs to.
+          required: true
+          type: number
+          format: long
+      tags:
+        - Users
+      security:
+        - petstore_auth:
+        - write_pets
+        - read_pets
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: http://localhost:8080/oauth/authorize
+    flow: implicit
+    scopes:
+      write_pets: modify pets in your account
+      read_pets: read your pets
+
+definitions:
+  User:
+    type: object
+    properties:
+      user_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      first_name:
+        type: string
+        description: First name of user.
+
+
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
