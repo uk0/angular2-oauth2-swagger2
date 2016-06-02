@@ -54,7 +54,6 @@
 
     <modules>
     <module>server</module>
-    <module>common-api</module>
     <module>common-dao</module>
     <module>user-domain</module>
     <module>user-api</module>
