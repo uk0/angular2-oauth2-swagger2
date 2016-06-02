@@ -5,7 +5,6 @@ import {Routes, Router, ROUTER_DIRECTIVES } from '@angular/router';
 import {Login} from "./login/login";
 import {Home} from './home/home';
 import {UsersComponent} from "./user/users.component";
-import {AppsComponent} from "./apps/apps.component";
 import {EnvTabs} from "./envTabs/envTabs";
 
 @Component({
@@ -21,7 +20,6 @@ import {EnvTabs} from "./envTabs/envTabs";
     { path: '/home', component: Home },
     { path: '/login', component: Login },
     { path: '/users', component: UsersComponent },
-    { path: '/apps', component: AppsComponent },
     { path: '/tabs', component: EnvTabs }
 
 ])
