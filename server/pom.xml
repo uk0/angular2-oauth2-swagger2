@@ -281,22 +281,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
-        <!-- Common -->
-
-        <dependency>
-            <groupId>com.sparksdev.flo</groupId>
-            <artifactId>common-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sparksdev.flo</groupId>
-            <artifactId>common-api</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
         <dependency>
             <groupId>com.sparksdev.flo</groupId>
             <artifactId>common-dto</artifactId>
