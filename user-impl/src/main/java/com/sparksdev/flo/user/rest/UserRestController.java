@@ -13,8 +13,6 @@ import javax.inject.Inject;
 /**
  * @author bengill
  */
-// TODO: MAKE THIS CONFIGURABLE
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/users")
 public class UserRestController extends BaseService {
@@ -22,21 +20,15 @@ public class UserRestController extends BaseService {
     @Inject
     UserApi userApi;
 
-    //@ApiOperation(value = "getAll", nickname = "getAll")
-
-
     @RequestMapping(method= RequestMethod.GET)
     public UserDto[] getAll() {
         final List<UserDto> users = Arrays.asList(new UserDto("admin"));
         LOG.info("users " + users.size());
         System.out.println("users " + users.size());
 
-        //return users;
-
         UserDto[] array = new UserDto[users.size()];
         users.toArray(array);
         return array;
-        //return new Testing[] { new Testing("Test") };
     }
 
     @RequestMapping(method=RequestMethod.POST)
