@@ -27,7 +27,7 @@ public class UserRestController extends BaseService {
 
     @RequestMapping(method= RequestMethod.GET)
     public UserDto[] getAll() {
-        final List<UserDto> users = Arrays.asList(new UserDto());
+        final List<UserDto> users = Arrays.asList(new UserDto("admin"));
         LOG.info("users " + users.size());
         System.out.println("users " + users.size());
 

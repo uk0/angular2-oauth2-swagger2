@@ -38,8 +38,10 @@ export class UserService {
             .catch(this.handleError);
     }
     private extractData(res: Response) {
+        console.log('res ' + res.toString());
         let body = res.json();
-        return body.data || { };
+        console.log('body ' + body);
+        return body || { };
     }
     private handleError (error: any) {
         // In a real world app, we might use a remote logging infrastructure
