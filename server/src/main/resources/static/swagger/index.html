@@ -38,7 +38,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://localhost:8080/swagger/swagger.yaml";
+        url = "/swagger/swagger.yaml";
       }
 
       hljs.configure({
@@ -54,6 +54,9 @@
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
+
+          log("inside onComplete");
+
           if(typeof initOAuth == "function") {
             initOAuth({
               clientId: "foo",
@@ -70,7 +73,7 @@
           }
         },
         onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
+          log("Unable to Load SwaggerUI " + data);
         },
         docExpansion: "none",
         jsonEditor: false,

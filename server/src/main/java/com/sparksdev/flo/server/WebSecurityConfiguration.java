@@ -53,7 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity
                 .ignoring()
-                .antMatchers("/index.html", "/swagger/**");  // To show swagger json
+                .antMatchers("/swagger/**");
 
 
     }
