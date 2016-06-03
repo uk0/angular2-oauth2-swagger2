@@ -33,8 +33,8 @@ http://localhost:8080/swagger-ui.html
 
 
 # Tip 1
-If you get a CORS error from Swagger Ui, you should a) check your console and b) paste your yaml file into:  http://editor.swagger.io
-It is often a problem with the yaml file, but Swagger Ui gives this misleading error.
+
+The best tip I can recommend is to get your swagger.json and paste it into :  http://editor.swagger.io
 
 You get your swagger.json from <your server>/<your context path>/v2/api-docs/
 
@@ -71,7 +71,7 @@ Official Documentation links are:
 
 # Tip 4
 
-When 
+Treat any CORS errors from Swagger Ui with extreme caution, this is often a very misleading error message.
 
 
 
