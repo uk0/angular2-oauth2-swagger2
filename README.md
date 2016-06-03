@@ -95,19 +95,33 @@ https://docs.oracle.com/cd/E39820_01/doc.11121/gateway_docs/content/oauth_flows.
 
 You must call your oauth2 'name', when you do a new OAuth(<name goes here>)
 
+# Tip 7
 
-Success stories:
+Don't import swagger-ui using the maven import.  This copy of swagger-ui is out of date, get the latest from here:
 
-# Success
+https://github.com/swagger-api/swagger-ui/tree/master/dist
 
-So I first saw some sort of success when I pasted my swagger.json into editor.swagger.io.  As my CorsFilter allows ("*") - not very secure!
-I could send in my request and authenticate in the editor screen.
+download it, and stick in src/main/resources/static (if you are using Spring Boot), else where ever your public htdocs are placed.
+
+Then, edit the index.html file and setup url so the swagger.json can be retrieved by swagger ui, ie. = "/v2/api-docs"
+/v2/api-docs will be available if you have swagger-core imported (aka maven/gradle etc.).
+
+
+# Current State
+
+* Swagger Editor
+
+I can now paste my swagger.json (/v2/api-docs) into editor.swagger.io.  As my CorsFilter currently allows ("*") - not very secure!
+I can then send in my request and authenticate in the editor screen.
+
 In order to get an access token, I run a curl:
 
 curl localhost:8080/oauth/token -d "grant_type=password&scope=write&username=admin&password=free4all" -u foo:bar --trace-ascii /dev/stdout
 
 I then paste in this access token into the authorization popup.  Not very user friendly, but better than nothing.
 
-However, Swagger Ui still does not let me authorize.
+* Swagger Ui
 
+Now I am using the latest version of Swagger Ui, I get the authorize button up, I can select which grant I want, but when I click on 
+authorize it takes me to /login rather than asking me for an access token.
 
