@@ -9,6 +9,9 @@ import com.sparksdev.flo.user.api.user.UserApi;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 
 /**
  * @author bengill
@@ -20,6 +23,15 @@ public class UserRestController extends BaseService {
     @Inject
     UserApi userApi;
 
+
+    @ApiOperation(value = "Get users",
+            authorizations = {
+                    @Authorization(
+                            value="oauth2schema",
+                            scopes = { @AuthorizationScope(scope = "global", description="This is a description...") }
+                    )
+            }
+    )
     @RequestMapping(method= RequestMethod.GET)
     public UserDto[] getAll() {
         final List<UserDto> users = Arrays.asList(new UserDto("admin"));

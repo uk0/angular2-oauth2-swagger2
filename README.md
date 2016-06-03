@@ -30,3 +30,48 @@ http://localhost:3000
 http://localhost:8080/v2/api-docs
 http://localhost:8080/swagger-ui.html
 
+
+
+# Tip 1
+If you get a CORS error from Swagger Ui, you should a) check your console and b) paste your yaml file into:  http://editor.swagger.io
+It is often a problem with the yaml file, but Swagger Ui gives this misleading error.
+
+You get your swagger.json from <your server>/<your context path>/v2/api-docs/
+
+
+# Tip 2
+
+You must understand this statement:
+
+Just to give you a high level idea without getting into the code, security has different pieces that all work together in concert
+
+The API itself needs to be protected. This is achieved by using, for simplicity sake, spring security and may also use a combination of servlet container and tomcat/jersey etc.
+   - This means doing something like this to your API:
+   
+       @ApiOperation(value = "Get blah blah", 
+           authorizations = {
+             @Authorization(
+                 value="petoauth", 
+                 scopes = { @AuthorizationScope(scope = "add:pet") }
+                 )
+           }
+         )
+         
+         The value of authorization must match the oauth2 
+                         
+The security scheme which describes the techniques you've used to protect the api. Spring fox supports whatever schemes swagger specification supports (ApiKey, BasicAuth and OAuth2 (certain profiles))
+Finally the security contexts which actually provides information on which api's are protected by which schemes.
+
+# Tip 3
+
+Official Documentation links are:
+
+* https://github.com/swagger-api/swagger-core/wiki/Annotations-1.5.X
+
+
+# Tip 4
+
+When 
+
+
+
