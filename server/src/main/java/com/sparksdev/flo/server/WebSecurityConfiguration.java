@@ -53,7 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity
                 .ignoring()
-                .antMatchers("/oauth/**", "/swagger-ui**", "/swagger-ui/**", "/swagger-editor**", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/v2/**");
+                .antMatchers("/swagger-ui**", "/swagger-ui/**", "/swagger-editor**", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/v2/**");
 
 
     }
@@ -69,14 +69,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests()
+        /*http.authorizeRequests()
                 .antMatchers("/rest/**").anonymous()
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 
 
-        http.formLogin().permitAll().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable();//.and().userDetailsService(yourCustomerUserDetailsService);
+        //http.formLogin().permitAll().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable();//.and().userDetailsService(yourCustomerUserDetailsService);
 
         // permitAll lets it through...
        // http.authorizeRequests().anyRequest().permitAll();

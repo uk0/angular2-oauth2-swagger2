@@ -131,7 +131,10 @@ authorize it takes me to /login rather than asking me for an access token.
 
 What is happening is I am hitting /oauth/authorize, 
 
-oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Fo2c.html&realm=your-realms&client_id=foo&scope=global&state=oauth2
-
+/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Fo2c.html&realm=your-realms&client_id=foo&scope=global&state=oauth2 reached end of additional filter chain; proceeding with original chain
+2016-06-03 20:11:52.190 DEBUG 13637 --- [nio-8080-exec-3] .s.o.p.e.FrameworkEndpointHandlerMapping : Looking up handler method for path /oauth/authorize
+2016-06-03 20:11:52.190 DEBUG 13637 --- [nio-8080-exec-3] .s.o.p.e.FrameworkEndpointHandlerMapping : Returning handler method [public org.springframework.web.servlet.ModelAndView org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint.authorize(java.util.Map<java.lang.String, java.lang.Object>,java.util.Map<java.lang.String, java.lang.String>,org.springframework.web.bind.support.SessionStatus,java.security.Principal)]
+2016-06-03 20:11:52.214 ERROR 13637 --- [nio-8080-exec-3] org.apache.velocity                      : ResourceManager : unable to find resource 'error.vm' in any resource loader.
+2016-06-03 20:11:52.400 ERROR 13637 --- [nio-8080-exec-3] org.thymeleaf.TemplateEngine             : [THYMELEAF][http-nio-8080-exec-3] Exception processing template "error": Error formatting date with standard format for locale en (error:35)
 
 
