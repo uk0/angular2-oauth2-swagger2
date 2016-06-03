@@ -23,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    public static final String securitySchemaOAuth2 = "oauth2schema";
+    public static final String securitySchemaOAuth2 = "oauth2";
     public static final String authorizationScopeGlobal = "global";
     public static final String authorizationScopeGlobalDesc ="accessEverything";
 
@@ -34,7 +34,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(internalPaths())
                 .build()
-                .securitySchemes(Arrays.asList(implicitFlow()))
+                .securitySchemes(Arrays.asList(authorizationCodeFlow()))
                 .securityContexts(Arrays.asList(securityContext()));
 
     }
@@ -44,11 +44,11 @@ public class SwaggerConfig {
     }
 
     /**
-     * This is one OAuth scheme for establishing trust between client and server.
+     *
      *
      * @return
      */
-    private OAuth authorisationCodeFlow() {
+    private OAuth implicitFlow() {
         return new OAuth(securitySchemaOAuth2, newArrayList(getAuthorizationScope()),
                 newArrayList(new ImplicitGrant(new LoginEndpoint("/oauth/dialog"), "access_code")));
     }
@@ -59,11 +59,18 @@ public class SwaggerConfig {
 
 
     /**
-     * This is one OAuth scheme for establishing trust between client and server.
+     * One of the 5 or so OAuth2 authorisation flows.
+     *
+     * The Authorization Code or Web server flow is suitable for clients that can interact with the end-user’s user-agent (typically a Web browser),
+     * and that can receive incoming requests from the authorization server (can act as an HTTP server).
      *
      * @return
      */
-    private OAuth implicitFlow() {
+    private OAuth authorizationCodeFlow() {
+
+        // Other grant types are: "authorization_code",
+        // "refresh_token",
+        // "password"
         return new OAuth(
                 securitySchemaOAuth2,
                 newArrayList(getAuthorizationScope()),

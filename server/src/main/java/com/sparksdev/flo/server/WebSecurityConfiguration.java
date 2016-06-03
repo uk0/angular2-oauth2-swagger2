@@ -10,9 +10,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.sparksdev.flo.authentication.api.AuthApi;
@@ -26,7 +30,7 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableOAuth2Client
-@EnableAuthorizationServer
+//@EnableAuthorizationServer
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -64,7 +68,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
 
-
         http
                 .requestMatcher(new AntPathRequestMatcher("/oauth/**"))
                 .csrf().disable()
@@ -77,13 +80,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        //http.formLogin().permitAll().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable();//.and().userDetailsService(yourCustomerUserDetailsService);
+        http.formLogin().permitAll().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable();//.and().userDetailsService(yourCustomerUserDetailsService);
 
         // permitAll lets it through...
-        http.authorizeRequests().anyRequest().permitAll();
+       // http.authorizeRequests().anyRequest().permitAll();
     }
 
-   /* @EnableAuthorizationServer
+    @EnableAuthorizationServer
     protected static class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
         @Resource
@@ -108,12 +111,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .withClient("foo")
                     //.resourceIds(xxx)
                     .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-                    .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+                   // .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                     .scopes("read", "write", "trust", "update")
                     .accessTokenValiditySeconds(1200) // 20 min
                     .refreshTokenValiditySeconds(60) // 1 min
                     .secret("bar");
 
         }
-    }*/
+    }
 }

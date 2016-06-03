@@ -26,7 +26,8 @@ public class UserRestController extends BaseService {
     @ApiOperation(value = "Get users",
             authorizations = {
                     @Authorization(
-                            value="oauth2schema",
+                            value="oauth2",
+
                             scopes = { @AuthorizationScope(scope = "global", description="This is a description...") }
                     )
             },
