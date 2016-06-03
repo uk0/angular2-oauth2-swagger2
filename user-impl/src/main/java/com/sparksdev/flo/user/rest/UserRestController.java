@@ -2,7 +2,6 @@ package com.sparksdev.flo.user.rest;
 
 import org.springframework.web.bind.annotation.*;
 import com.sparksdev.flo.common.service.BaseService;
-import com.sparksdev.flo.domain.user.User;
 import com.sparksdev.flo.domain.user.dto.UserDto;
 import com.sparksdev.flo.user.api.user.UserApi;
 
@@ -30,7 +29,9 @@ public class UserRestController extends BaseService {
                             value="oauth2schema",
                             scopes = { @AuthorizationScope(scope = "global", description="This is a description...") }
                     )
-            }
+            },
+            response = UserDto.class
+
     )
     @RequestMapping(method= RequestMethod.GET)
     public UserDto[] getAll() {
@@ -44,7 +45,7 @@ public class UserRestController extends BaseService {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public User create(@RequestBody User contact) {
+    public UserDto create(@RequestBody UserDto user) {
         return null;
     }
 
@@ -54,7 +55,7 @@ public class UserRestController extends BaseService {
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="{id}")
-    public User update(@PathVariable String id, @RequestBody User contact) {
+    public UserDto update(@PathVariable String id, @RequestBody UserDto user) {
         return null;
     }
 
