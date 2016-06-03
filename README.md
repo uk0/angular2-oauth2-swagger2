@@ -106,6 +106,10 @@ download it, and stick in src/main/resources/static (if you are using Spring Boo
 Then, edit the index.html file and setup url so the swagger.json can be retrieved by swagger ui, ie. = "/v2/api-docs"
 /v2/api-docs will be available if you have swagger-core imported (aka maven/gradle etc.).
 
+# Tip 8
+
+I don't think you can just deploy the editor locally on your server.  You either use the cloud version or 
+you run another web server (ie. node)
 
 # Current State
 
@@ -124,4 +128,10 @@ I then paste in this access token into the authorization popup.  Not very user f
 
 Now I am using the latest version of Swagger Ui, I get the authorize button up, I can select which grant I want, but when I click on 
 authorize it takes me to /login rather than asking me for an access token.
+
+What is happening is I am hitting /oauth/authorize, 
+
+oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Fo2c.html&realm=your-realms&client_id=foo&scope=global&state=oauth2
+
+
 
