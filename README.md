@@ -96,5 +96,18 @@ https://docs.oracle.com/cd/E39820_01/doc.11121/gateway_docs/content/oauth_flows.
 You must call your oauth2 'name', when you do a new OAuth(<name goes here>)
 
 
+Success stories:
+
+# 1
+
+So I first saw some sort of success when I pasted my swagger.json into editor.swagger.io.  As my CorsFilter allows ("*") - not very secure!
+I could send in my request and authenticate in the editor screen.
+In order to get an access token, I run a curl:
+
+curl localhost:8080/oauth/token -d "grant_type=password&scope=write&username=admin&password=free4all" -u foo:bar --trace-ascii /dev/stdout
+
+I then paste in this access token into the authorization popup.  Not very user friendly, but better than nothing.
+
+However, Swagger Ui still does not let me authorize.
 
 
