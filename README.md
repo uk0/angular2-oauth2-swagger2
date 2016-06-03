@@ -98,7 +98,7 @@ You must call your oauth2 'name', when you do a new OAuth(<name goes here>)
 
 Success stories:
 
-# 1
+# Success
 
 So I first saw some sort of success when I pasted my swagger.json into editor.swagger.io.  As my CorsFilter allows ("*") - not very secure!
 I could send in my request and authenticate in the editor screen.
