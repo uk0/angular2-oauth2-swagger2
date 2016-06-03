@@ -51,8 +51,12 @@ public class SwaggerConfig {
 
     private OAuth securitySchema() {
         AuthorizationScope authorizationScope = new AuthorizationScope(authorizationScopeGlobal, authorizationScopeGlobal);
-        LoginEndpoint loginEndpoint = new LoginEndpoint("/oauth/token");
-        GrantType grantType = new ImplicitGrant(loginEndpoint, "access_token");
+
+        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("/oauth/authorize", "foo", "bar");
+        TokenEndpoint tokenEndpoint = new TokenEndpoint("/oauth/token", "access_code");
+
+        GrantType grantType = new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint);
+
         // new GrantType("read:user")
         return new OAuth(securitySchemaOAuth2, newArrayList(authorizationScope), newArrayList(grantType));
     }
