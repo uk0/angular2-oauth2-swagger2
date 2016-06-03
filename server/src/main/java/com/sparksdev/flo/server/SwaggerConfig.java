@@ -4,7 +4,6 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.google.common.base.Predicate;
 
 import java.util.Arrays;
@@ -32,15 +31,10 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-
                 .apis(RequestHandlerSelectors.any())
                 .paths(internalPaths())
-
-
-
-                // This will apply the security scheme to all paths
                 .build()
-                .securitySchemes(Arrays.asList(securitySchema()))
+                .securitySchemes(Arrays.asList(implicitFlow()))
                 .securityContexts(Arrays.asList(securityContext()));
 
     }
@@ -49,18 +43,36 @@ public class SwaggerConfig {
         return PathSelectors.regex("/users.*");
     }
 
-    private OAuth securitySchema() {
-        AuthorizationScope authorizationScope = new AuthorizationScope(authorizationScopeGlobal, authorizationScopeGlobal);
-
-        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("/oauth/authorize", "foo", "bar");
-        TokenEndpoint tokenEndpoint = new TokenEndpoint("/oauth/token", "access_code");
-
-        GrantType grantType = new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint);
-
-        // new GrantType("read:user")
-        return new OAuth(securitySchemaOAuth2, newArrayList(authorizationScope), newArrayList(grantType));
+    /**
+     * This is one OAuth scheme for establishing trust between client and server.
+     *
+     * @return
+     */
+    private OAuth authorisationCodeFlow() {
+        return new OAuth(securitySchemaOAuth2, newArrayList(getAuthorizationScope()),
+                newArrayList(new ImplicitGrant(new LoginEndpoint("/oauth/dialog"), "access_code")));
     }
 
+    private AuthorizationScope getAuthorizationScope() {
+        return new AuthorizationScope(authorizationScopeGlobal, authorizationScopeGlobal);
+    }
+
+
+    /**
+     * This is one OAuth scheme for establishing trust between client and server.
+     *
+     * @return
+     */
+    private OAuth implicitFlow() {
+        return new OAuth(
+                securitySchemaOAuth2,
+                newArrayList(getAuthorizationScope()),
+                newArrayList(
+                        new AuthorizationCodeGrant(
+                                new TokenRequestEndpoint("/oauth/authorize", "foo", "bar"),
+                                new TokenEndpoint("/oauth/token", "access_code"))
+                ));
+    }
 
     private SecurityContext securityContext() {
         return SecurityContext.builder()
