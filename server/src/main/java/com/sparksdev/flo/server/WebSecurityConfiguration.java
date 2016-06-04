@@ -44,7 +44,6 @@ public class WebSecurityConfiguration {
 
 
     @Configuration
-    @Order(1)
     public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
 
@@ -84,6 +83,7 @@ public class WebSecurityConfiguration {
     }
 
     @Configuration
+    @Order(1)
     public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Override
