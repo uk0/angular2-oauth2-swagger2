@@ -88,38 +88,15 @@ public class WebSecurityConfiguration {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+
             http
                     .authorizeRequests()
+                    // We will let these through and let oauth handle these...
+                    .antMatchers("/users**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().and().csrf().disable();
         }
-
-        /*@Override
-        protected void configure(final HttpSecurity http) throws Exception {
-
-            http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
-
-            http
-                    .requestMatcher(new AntPathRequestMatcher("/oauth/**"))
-                    .csrf().disable()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-            http
-                    .authorizeRequests()
-                            // Let these through (although I think the line above does that already)
-                    .antMatchers("/swagger-ui**", "/swagger-ui/**", "/swagger-editor**", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/v2/**").permitAll()
-                    // Rest must be authenticated
-                    .anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                            // This is the default anyway
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
-                    .csrf().disable();
-
-        }*/
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {

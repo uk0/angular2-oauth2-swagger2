@@ -141,3 +141,8 @@ The question then is (I suppose) is that I need to enable a /login mechanism on 
 So I really need to setup implicit flow.
 
 Trouble is oauth is intercepting my /login request and not let it get through to the Spring Security filter.
+
+# Tip 9
+
+Ordering the interceptors.  So, I have now ordered my interceptors, and made the form login web security configuration have greater precedence.  This makes the Swagger Ui work and allow me to 
+grant permission
