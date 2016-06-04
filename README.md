@@ -145,4 +145,5 @@ Trouble is oauth is intercepting my /login request and not let it get through to
 # Tip 9
 
 Ordering the interceptors.  So, I have now ordered my interceptors, and made the form login web security configuration have greater precedence.  This makes the Swagger Ui work and allow me to 
-grant permission
+grant permission.  Then, finally, I had to tell the form login web security configuration to 'allow' the call to the /users REST service through, and of course the oauth2 web security config
+picked it up instead.
