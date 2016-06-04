@@ -10,13 +10,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.sparksdev.flo.authentication.api.AuthApi;
@@ -30,7 +26,7 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableOAuth2Client
-//@EnableAuthorizationServer
+@EnableAuthorizationServer
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -53,8 +49,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     * We override this method to ignore certain requests.
+     *
+     * @param webSecurity
+     * @throws Exception
+     */
     @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
+    public void configure(final WebSecurity webSecurity) throws Exception {
+        // This seems to be the most reliable method of letting requests through
         webSecurity
                 .ignoring()
                 .antMatchers("/swagger-ui**", "/swagger-ui/**", "/swagger-editor**", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/v2/**");
@@ -65,7 +68,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 
-
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
 
         http
@@ -73,19 +75,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        /*http.authorizeRequests()
-                .antMatchers("/rest/**").anonymous()
+        http
+                .authorizeRequests()
+                // Let these through (although I think the line above does that already)
+                .antMatchers("/swagger-ui**", "/swagger-ui/**", "/swagger-editor**", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/v2/**").permitAll()
+                // Rest must be authenticated
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
+                .formLogin()
+                // This is the default anyway
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .csrf().disable();
 
-
-        //http.formLogin().permitAll().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable();//.and().userDetailsService(yourCustomerUserDetailsService);
-
-        // permitAll lets it through...
-        // http.authorizeRequests().anyRequest().permitAll();
     }
 
+    /*
     @EnableAuthorizationServer
     protected static class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
@@ -114,5 +120,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .scopes("read", "write", "trust", "update", "global", "openid");
 
         }
-    }
+    }*/
 }

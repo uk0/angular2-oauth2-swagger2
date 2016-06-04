@@ -22,7 +22,6 @@ import java.util.Map;
  * If you want to keep Spring Boot MVC features, and you just want to add additional MVC configuration
  * (interceptors, formatters, view controllers etc.) you can add your own @Bean of type WebMvcConfigurerAdapter, but without @EnableWebMvc.
  */
-//@EnableWebMvc
 @Configuration
 public class ServerMvcConfiguration extends WebMvcConfigurerAdapter {
 
@@ -39,7 +38,7 @@ public class ServerMvcConfiguration extends WebMvcConfigurerAdapter {
         throw new RuntimeException("Expected exception in controller");
     }
 
-    /*@Override
+   /* @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }*/

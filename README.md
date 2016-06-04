@@ -137,3 +137,7 @@ and the authorization endpoint is complaining: User must be authenticated with S
 I mean, I do want the user to have authenticated first anyway, as I don't want them to have to run curl to get an access token and paste this in.
 
 The question then is (I suppose) is that I need to enable a /login mechanism on the back end server.
+
+So I really need to setup implicit flow.
+
+Trouble is oauth is intercepting my /login request and not let it get through to the Spring Security filter.
