@@ -50,4 +50,8 @@ public class ServerApplication {
         SeedService seedService = ctx.getBean(SeedService.class);
         seedService.seed();
     }
+
+
+
+
 }
