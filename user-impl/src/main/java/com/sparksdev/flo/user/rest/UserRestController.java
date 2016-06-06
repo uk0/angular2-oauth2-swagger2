@@ -27,12 +27,10 @@ public class UserRestController extends BaseService {
             authorizations = {
                     @Authorization(
                             value="oauth2",
-
                             scopes = { @AuthorizationScope(scope = "global", description="This is a description...") }
                     )
             },
             response = UserDto.class
-
     )
     @RequestMapping(method= RequestMethod.GET)
     public UserDto[] getAll() {
