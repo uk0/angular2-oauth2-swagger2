@@ -5,8 +5,7 @@ There is a back end server (Spring Boot) with OAuth2 server and a basic Spring R
 
 The front end (web) is an Angular2 app that performs a login by calling the back end oauth2 server.
 
-# Install mongo db
-Any version 3 will do.
+# Install mongo db v3
 
 # To build
 
@@ -27,16 +26,17 @@ http://localhost:3000
 
 
 # Swagger
-http://localhost:8080/v2/api-docs
+http://localhost:8080/v2/api-docs - this gives you the 'swagger json'
 http://localhost:8080/swagger-ui/index.html
 
 
 
 # Tip 1
 
-The best tip I can recommend is to get your swagger.json and paste it into :  http://editor.swagger.io
+If you want to validate your swagger.json you can hit your endpoint ending /api-docs (see above) and paste it into :  http://editor.swagger.io
 
-You get your swagger.json from <your server>/<your context path>/v2/api-docs/
+This will not only tell you if there is anything wrong, it will also allow you to generate source code for clients.  This is useful in my
+example as I am interested in generating client code for Angular 2.
 
 
 # Tip 2
@@ -66,84 +66,72 @@ The security scheme which describes the techniques you've used to protect the ap
 Finally the security contexts which actually provides information on which api's are protected by which schemes.
 
   - This means you MUST setup securityContexts on the Swagger Docket object
+  
+  These last two are setup in the SwaggerConfig file.
 
 # Tip 3
 
-Official Documentation links are:
+Documentation links are:
 
+* http://springfox.github.io/springfox/docs/current/
 * https://github.com/swagger-api/swagger-core/wiki/Annotations-1.5.X
+* https://groups.google.com/forum/#!forum/swagger-swaggersocket - for support
 
 
 # Tip 4
 
-Treat any CORS errors from Swagger Ui with extreme caution, this is often a very misleading error message.
+If you see any CORS errors from Swagger Ui, treat it with caution, it is often an error which has nothing to do with CORS.
 
 # Tip 5
 
-Now the OAuth2 (certain profiles) bit is significant.  There are the following OAuth2 profiles:
+There are the following different OAuth2 flows, and Swagger Ui does not support all of them:
 
 https://docs.oracle.com/cd/E39820_01/doc.11121/gateway_docs/content/oauth_flows.html
 
-* Authorization Code (or Web Server) Flow - this is implemented in this example, and is supposed to be supported in Swagger
-* Implicit Grant (or User Agent) Flow - this *IS* supported by swagger, but involves presenting an authorization url ending in /oauth/dialog
-* Resource Owner Password Credentials Flow
-* Client Credentials Grant Flow - only to be used by confidential clients - not implemented in Swagger.
-* OAuth 2.0 JWT Flow - not configured in this example
+* Authorization Code (or Web Server) Flow - this *IS* supported by swagger
+* Implicit Grant (or User Agent) Flow - this *IS* supported by swagger and is implemented in this sample.
+* Resource Owner Password Credentials Flow - I don't believe this is supported by swagger ui.
+* Client Credentials Grant Flow - only to be used by confidential clients - I don't believe this is supported by swagger ui.
+* OAuth 2.0 JWT Flow - I don't believe this is supported by swagger ui.
 
   
 # Tip 6
 
-You must call your oauth2 'name', when you do a new OAuth(<name goes here>)
+When you create an instance of the OAuth object in your SwaggerConfig, (ie. new OAuth("oauth2")), it *may be* important to supply the name as oauth2 specifically.
 
 # Tip 7
 
-Don't import swagger-ui using the maven import.  This copy of swagger-ui is out of date, get the latest from here:
+Don't import swagger-ui using the maven import / webjar method because this copy of swagger-ui is out of date, get the latest from here:
 
 https://github.com/swagger-api/swagger-ui/tree/master/dist
 
-download it, and stick in src/main/resources/static (if you are using Spring Boot), else where ever your public htdocs are placed.
+download it, and stick in src/main/resources/static (if you are using Spring Boot), or where your public html files are served from (ie. htdocs).
 
 Then, edit the index.html file and setup url so the swagger.json can be retrieved by swagger ui, ie. = "/v2/api-docs"
-/v2/api-docs will be available if you have swagger-core imported (aka maven/gradle etc.).
+/v2/api-docs will be available if you have swagger-core imported (aka maven/gradle etc.).  
 
 # Tip 8
 
 I don't think you can just deploy the editor locally on your server.  You either use the cloud version or 
 you run another web server (ie. node)
 
-# Current State
+# Tip 9 
 
-* Swagger Editor
+As you are deploying the swagger-ui locally, you should not have any CORS issues.  There is a CORS filter in this example, but it is
+for handling the requests from the angular web sample.
 
-I can now paste my swagger.json (/v2/api-docs) into editor.swagger.io.  As my CorsFilter currently allows ("*") - not very secure!
-I can then send in my request and authenticate in the editor screen.
+# Tip 10
 
-In order to get an access token, I run a curl:
+I ended up enabling form login to allow the user to login directly from my backend server.  This is because I did not want the users having to generate 
+an access token (using curl for example), and having to paste that token in.  In order to do this, I had to enable formLogin in my Spring Security setup.
+However, this then gave me an additional problem as the oauth2 filters were fighting with the form login filter.  
 
-curl localhost:8080/oauth/token -d "grant_type=password&scope=write&username=admin&password=free4all" -u foo:bar --trace-ascii /dev/stdout
+So I decided to separate out the config so I have two WebSecurtyConfig's, this allowed me to use the @Order annotation, so I could give one greater precedence
+over the other, but this mean't that either ONLY the form login worked, or ONLY the oauth2 login worked.
 
-I then paste in this access token into the authorization popup.  Not very user friendly, but better than nothing.
+So I decided I actually wanted the oauth2 filter to be processing my REST calls, so I told the formLogin WebSecurityConfig to ignore the call to my REST service (/users) 
+and this mean't the oauth2 web security config picked it up instead.  
 
-* Swagger Ui
-
-Now I am using the latest version of Swagger Ui, I get the authorize button up, I can select which grant I want, but when I click on 
-authorize it takes me to /login rather than asking me for an access token.
-
-What is happening is I am hitting /oauth/authorize, passing this:
-/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Fo2c.html&realm=your-realms&client_id=foo&scope=global&state=oauth2 reached end of additional filter chain; proceeding with original chain
-
-and the authorization endpoint is complaining: User must be authenticated with Spring Security before authorization can be completed.  It wants me to have authenticated first.
-
-I mean, I do want the user to have authenticated first anyway, as I don't want them to have to run curl to get an access token and paste this in.
-
-The question then is (I suppose) is that I need to enable a /login mechanism on the back end server.
-
-So I really need to setup implicit flow.
-
-Trouble is oauth is intercepting my /login request and not let it get through to the Spring Security filter.
-
-# Tip 9
-
-Ordering the interceptors.  So, I have now ordered my interceptors, and made the form login web security configuration have greater precedence.  This makes the Swagger Ui work and allow me to 
-grant permission.  Then, finally, I had to tell the form login web security configuration to 'allow' the call to the /users REST service through, and of course the oauth2 web security config
-picked it up instead.
+/users -> oauth2 filter/security config
+/swagger-ui/index.html - allow through
+/login -> form login filter/security config
